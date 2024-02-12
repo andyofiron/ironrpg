@@ -1,0 +1,187 @@
+[gd_scene load_steps=27 format=3 uid="uid://o2h55i42l8kp"]
+
+[ext_resource type="Material" uid="uid://bbllslyq3imxo" path="res://Materials/Tylez.tres" id="1_ckp58"]
+[ext_resource type="Texture2D" uid="uid://b32sc6q6ej8a2" path="res://Sprites/street/Street16.png" id="2_gweqj"]
+[ext_resource type="Texture2D" uid="uid://d3bm5cyhl3kvo" path="res://Sprites/street/Street14.png" id="3_cloed"]
+[ext_resource type="Texture2D" uid="uid://265y7f27nmno" path="res://Sprites/street/Street8.png" id="4_lnyex"]
+[ext_resource type="Texture2D" uid="uid://ckdusbje5noq1" path="res://Sprites/street/Street1.png" id="5_fkd5s"]
+[ext_resource type="Texture2D" uid="uid://bqbf1u1fjulod" path="res://Sprites/street/Street4.png" id="5_nnwhk"]
+[ext_resource type="Texture2D" uid="uid://7pdaccqvvcyf" path="res://Sprites/street/Street12.png" id="7_ayvuh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_apjgi"]
+lightmap_size_hint = Vector2i(14, 21)
+material = ExtResource("1_ckp58")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ngv7v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jf1he"]
+
+[sub_resource type="Gradient" id="Gradient_6bfot"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bqwrd"]
+gradient = SubResource("Gradient_6bfot")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rbwey"]
+shading_mode = 0
+specular_mode = 2
+albedo_texture = SubResource("GradientTexture2D_bqwrd")
+refraction_scale = 0.58
+uv1_offset = Vector3(0.5, 0, 0)
+uv1_triplanar = true
+texture_filter = 0
+grow_amount = 0.352
+
+[sub_resource type="BoxMesh" id="BoxMesh_6rint"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_rbwey")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcsog"]
+albedo_texture = ExtResource("2_gweqj")
+uv1_offset = Vector3(0, 0.5, 0)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_nsq1c"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_xcsog")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xfm0b"]
+diffuse_mode = 3
+albedo_texture = ExtResource("3_cloed")
+uv1_offset = Vector3(0, 0.5, 0)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_xv26d"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_xfm0b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xef4g"]
+albedo_texture = ExtResource("4_lnyex")
+uv1_offset = Vector3(0, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_wt4ml"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_xef4g")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xe04w"]
+albedo_texture = ExtResource("5_fkd5s")
+uv1_offset = Vector3(0, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_axoi5"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_xe04w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w1wgm"]
+albedo_texture = ExtResource("5_nnwhk")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_xr6ip"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_w1wgm")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x22u0"]
+albedo_texture = ExtResource("7_ayvuh")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_1wcs7"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_x22u0")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Brick" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_apjgi")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="Brick"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="Brick/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="Black" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+mesh = SubResource("BoxMesh_6rint")
+skeleton = NodePath("")
+
+[node name="Trigger" type="Area3D" parent="Black"]
+
+[node name="Collision" type="CollisionShape3D" parent="Black/Trigger"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="BrickTrim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_nsq1c")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="BrickTrim"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="BrickTrim/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="Sidewalk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+mesh = SubResource("BoxMesh_xv26d")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="Sidewalk"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="Sidewalk/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="SidewalkTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+mesh = SubResource("BoxMesh_wt4ml")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="SidewalkTop"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="SidewalkTop/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="Asphalt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+mesh = SubResource("BoxMesh_axoi5")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="Asphalt"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="Asphalt/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="SidewalkCorner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+mesh = SubResource("BoxMesh_xr6ip")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="SidewalkCorner"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="SidewalkCorner/Body"]
+shape = SubResource("BoxShape3D_jf1he")
+
+[node name="SidewalkInnerCorner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
+mesh = SubResource("BoxMesh_1wcs7")
+skeleton = NodePath("Body")
+
+[node name="Body" type="StaticBody3D" parent="SidewalkInnerCorner"]
+physics_material_override = SubResource("PhysicsMaterial_ngv7v")
+
+[node name="Collision" type="CollisionShape3D" parent="SidewalkInnerCorner/Body"]
+shape = SubResource("BoxShape3D_jf1he")
