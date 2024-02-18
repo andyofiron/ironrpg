@@ -1,0 +1,30 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=7 format=3 uid="uid://1g1e7bpvh6b6"]
+
+[ext_resource type="AnimationNodeBlendSpace2D" uid="uid://dqfsfx2hftbtn" path="res://Animations/Player/PlayerIdle.tres" id="1_lax00"]
+[ext_resource type="AnimationNodeBlendSpace2D" uid="uid://cg7blnoxr00nc" path="res://Animations/Player/PlayerWalk.tres" id="1_ong7v"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_27r8t"]
+advance_mode = 2
+advance_condition = &"isMoving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y273c"]
+advance_mode = 2
+advance_condition = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pd65y"]
+advance_mode = 2
+advance_condition = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xo2e6"]
+advance_mode = 2
+advance_condition = &"isMoving"
+
+[resource]
+states/BlendSpace2D/node = ExtResource("1_lax00")
+states/BlendSpace2D/position = Vector2(252.105, 179.258)
+states/End/position = Vector2(475.5, 109.319)
+states/Start/position = Vector2(42, 109.402)
+states/Walk/node = ExtResource("1_ong7v")
+states/Walk/position = Vector2(251.979, 59.5325)
+transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_27r8t"), "Start", "BlendSpace2D", SubResource("AnimationNodeStateMachineTransition_y273c"), "Walk", "BlendSpace2D", SubResource("AnimationNodeStateMachineTransition_pd65y"), "BlendSpace2D", "Walk", SubResource("AnimationNodeStateMachineTransition_xo2e6")]
+graph_offset = Vector2(-94.6001, 29.7975)

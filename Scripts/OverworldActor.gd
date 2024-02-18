@@ -4,7 +4,7 @@ class_name OverworldActor
 @export var gravityEnabled : bool = true
 @export var speed : int = 5
 var gravity = 0
-var gForce = -.02
+@export var gForce = -.02
 
 func Move(dir:Vector3):
 	dir = (dir * speed) + Vector3(0,gravity,0)

@@ -1,16 +1,26 @@
-[gd_scene load_steps=10 format=3 uid="uid://co23d0nlt0yaq"]
+[gd_scene load_steps=34 format=3 uid="uid://co23d0nlt0yaq"]
 
 [ext_resource type="MeshLibrary" uid="uid://b7yhw5ne58o6" path="res://Tilesets/City.tres" id="1_lbas7"]
-[ext_resource type="Texture2D" uid="uid://dtpb2c72nw7lg" path="res://Sprites/Big Walker.png" id="2_hk7dh"]
 [ext_resource type="Script" path="res://Scripts/OverworldActor.gd" id="2_k047l"]
 [ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="2_mxn14"]
+[ext_resource type="Shader" path="res://Shaders/SpriteNormals.gdshader" id="4_2gev5"]
+[ext_resource type="Texture2D" uid="uid://2wseuclfyj04" path="res://Sprites/BIGWALKER.png" id="4_n0t1m"]
+[ext_resource type="Texture2D" uid="uid://dk20xp2yw7hbb" path="res://Sprites/BIGWALKER_Normal.png" id="5_23ova"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://1g1e7bpvh6b6" path="res://Animations/Player/Player.tres" id="5_hmu5a"]
+[ext_resource type="Texture2D" uid="uid://86rb0ugnwwo" path="res://Sprites/wallamp.png" id="6_0xti4"]
+[ext_resource type="Script" path="res://Scripts/NPCController.gd" id="8_8js2e"]
+[ext_resource type="Texture2D" uid="uid://c5g7h1jxbl77t" path="res://Sprites/placeholder.png" id="9_sc8vc"]
+[ext_resource type="Texture2D" uid="uid://cxbegepv5qts8" path="res://Sprites/street/streetlamp_normal.png" id="11_3fsbo"]
+[ext_resource type="Texture2D" uid="uid://dudrk0sh8hrtd" path="res://Sprites/street/streetlamp.png" id="11_gcext"]
+[ext_resource type="Script" path="res://Scripts/LampFlicker.gd" id="12_c1rnb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mq6si"]
 
 [sub_resource type="Environment" id="Environment_48nd8"]
 background_mode = 1
-background_color = Color(0.0901961, 0.0509804, 0.133333, 1)
-ambient_light_source = 2
+background_color = Color(0, 0, 0.294118, 1)
+background_energy_multiplier = 0.33
+ambient_light_source = 1
 ambient_light_color = Color(1, 1, 1, 1)
 glow_strength = 1.48
 fog_light_energy = 9.9
@@ -24,6 +34,190 @@ albedo_color = Color(1, 1, 1, 0.164706)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sxdh3"]
 material = SubResource("StandardMaterial3D_ipsfx")
+radius = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqqsr"]
+shader = ExtResource("4_2gev5")
+shader_parameter/Normal_map = ExtResource("5_23ova")
+
+[sub_resource type="Animation" id="Animation_xka53"]
+resource_name = "IdleLeft"
+length = 0.10001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="Animation" id="Animation_5n4tn"]
+resource_name = "IdleRight"
+length = 0.10001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_gkoov"]
+resource_name = "IdleTowards"
+length = 0.20001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 0]
+}
+
+[sub_resource type="Animation" id="Animation_yxt74"]
+resource_name = "IdleUp"
+length = 0.111117
+step = 0.0555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0555556),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_ytexu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ak30x"]
+resource_name = "WalkAway"
+length = 0.80001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 6, 8]
+}
+
+[sub_resource type="Animation" id="Animation_pgdeh"]
+resource_name = "WalkLeft"
+length = 0.80001
+loop_mode = 1
+step = 0.0555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.388889, 0.611111),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 9, 11]
+}
+
+[sub_resource type="Animation" id="Animation_t8duf"]
+resource_name = "WalkRight"
+length = 0.80001
+loop_mode = 1
+step = 0.0555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 3, 5]
+}
+
+[sub_resource type="Animation" id="Animation_s3rcc"]
+resource_name = "WalkTowards"
+length = 0.666675
+loop_mode = 1
+step = 0.0555556
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_70k3o"]
+_data = {
+"IdleLeft": SubResource("Animation_xka53"),
+"IdleRight": SubResource("Animation_5n4tn"),
+"IdleTowards": SubResource("Animation_gkoov"),
+"IdleUp": SubResource("Animation_yxt74"),
+"RESET": SubResource("Animation_ytexu"),
+"WalkAway": SubResource("Animation_ak30x"),
+"WalkLeft": SubResource("Animation_pgdeh"),
+"WalkRight": SubResource("Animation_t8duf"),
+"WalkTowards": SubResource("Animation_s3rcc")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x2bnb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qivth"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.34902)
+
+[sub_resource type="SphereMesh" id="SphereMesh_f57db"]
+material = SubResource("StandardMaterial3D_qivth")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qqgdd"]
+shader = ExtResource("4_2gev5")
+shader_parameter/Normal_map = ExtResource("11_3fsbo")
 
 [node name="Node3D" type="Node3D"]
 
@@ -39,34 +233,160 @@ metadata/_editor_floor_ = Vector3(0, 2, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_48nd8")
 
-[node name="MC" type="Node3D" parent="." node_paths=PackedStringArray("Actor")]
+[node name="MC" type="Node3D" parent="." node_paths=PackedStringArray("Actor", "Animator", "interactionSphere")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.56231, 1)
 script = ExtResource("2_mxn14")
-Actor = NodePath("CharacterBody3D")
+Actor = NodePath("PlayerActor")
+Animator = NodePath("PlayerActor/AnimationTree")
+interactionSphere = NodePath("PlayerActor/InteractionSphere")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="MC"]
+[node name="PlayerActor" type="CharacterBody3D" parent="MC"]
 script = ExtResource("2_k047l")
+gForce = -0.05
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MC/CharacterBody3D"]
+[node name="Collider" type="CollisionShape3D" parent="MC/PlayerActor"]
 shape = SubResource("CapsuleShape3D_rejac")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MC/CharacterBody3D/CollisionShape3D"]
+[node name="ColliderVisual" type="MeshInstance3D" parent="MC/PlayerActor/Collider"]
+visible = false
 mesh = SubResource("CapsuleMesh_sxdh3")
 skeleton = NodePath("")
 
-[node name="Sprite3D" type="Sprite3D" parent="MC/CharacterBody3D"]
-transform = Transform3D(2, 0, 0, 0, 1.93563, 0.503328, 0, -0.503328, 1.93563, 0, 0, 0)
+[node name="PlayerSprite" type="Sprite3D" parent="MC/PlayerActor"]
+transform = Transform3D(2, -1.14597e-15, 5.34373e-16, 5.34372e-16, 1.53209, 1.28558, -1.14597e-15, -1.28558, 1.53209, 0, 0, 0)
+material_overlay = SubResource("ShaderMaterial_fqqsr")
 pixel_size = 0.0313
+shaded = true
 texture_filter = 0
-texture = ExtResource("2_hk7dh")
+texture = ExtResource("4_n0t1m")
 hframes = 3
 vframes = 4
 
-[node name="Camera3D" type="Camera3D" parent="MC/CharacterBody3D"]
+[node name="Camera3D" type="Camera3D" parent="MC/PlayerActor"]
 transform = Transform3D(2, 0, 0, 0, 1.53209, 1.28558, 0, -1.28558, 1.53209, 0, 6.07881, 7.64583)
 current = true
-fov = 57.3
+fov = 60.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="MC/PlayerActor/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.999935, 0.0114318, 0, -0.0114317, 0.999935, 0, 0, 0)
+visible = false
+light_energy = 0.5
+light_indirect_energy = 2.16
+spot_range = 7.0
+
+[node name="Control" type="Control" parent="MC/PlayerActor/Camera3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MC/PlayerActor"]
+libraries = {
+"": SubResource("AnimationLibrary_70k3o")
+}
+autoplay = "IdleTowards"
+
+[node name="AnimationTree" type="AnimationTree" parent="MC/PlayerActor"]
+libraries = {
+"": SubResource("AnimationLibrary_70k3o")
+}
+tree_root = ExtResource("5_hmu5a")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/idle = true
+parameters/conditions/isMoving = false
+parameters/BlendSpace2D/blend_position = Vector2(2.08165e-12, 2.08165e-12)
+parameters/Walk/blend_position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="InteractionSphere" type="Area3D" parent="MC/PlayerActor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MC/PlayerActor/InteractionSphere"]
+shape = SubResource("SphereShape3D_x2bnb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MC/PlayerActor/InteractionSphere"]
+mesh = SubResource("SphereMesh_f57db")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.58746, 0.809253, 0, -0.809253, 0.58746, 0, 4.71282, 0)
-light_color = Color(1, 1, 0.94902, 1)
+transform = Transform3D(1, -6.97574e-16, -1.5246e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 0, 4.71282, 0)
+light_color = Color(1, 0.980392, 0.890196, 1)
+light_energy = 0.4
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+
+[node name="RobbyNPC" type="Node3D" parent="." node_paths=PackedStringArray("Actor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, -2)
+script = ExtResource("8_8js2e")
+Actor = NodePath("Robby")
+
+[node name="Robby" type="CharacterBody3D" parent="RobbyNPC"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("2_k047l")
+gForce = -0.05
+
+[node name="Collider" type="CollisionShape3D" parent="RobbyNPC/Robby"]
+shape = SubResource("CapsuleShape3D_rejac")
+
+[node name="Sprite" type="Sprite3D" parent="RobbyNPC/Robby"]
+transform = Transform3D(2, -1.14597e-15, 5.34373e-16, 5.34372e-16, 1.53209, 1.28558, -1.14597e-15, -1.28558, 1.53209, 0, 0, 0)
+material_overlay = SubResource("ShaderMaterial_fqqsr")
+pixel_size = 0.0313
+shaded = true
+texture_filter = 0
+texture = ExtResource("9_sc8vc")
+hframes = 8
+
+[node name="WallLamp" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.5, 2, -3.9)
+texture_filter = 0
+texture = ExtResource("6_0xti4")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WallLamp"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+light_color = Color(1, 1, 0.682353, 1)
+light_energy = 0.7
+shadow_enabled = true
+omni_range = 3.78
+
+[node name="WallLamp2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -3.5, 2, -3.9)
+texture_filter = 0
+texture = ExtResource("6_0xti4")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WallLamp2"]
+light_color = Color(1, 1, 0.682353, 1)
+light_energy = 0.7
+shadow_enabled = true
+omni_range = 3.78
+
+[node name="StreetLamp" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -3.505, 2.6, 1.826)
+material_overlay = SubResource("ShaderMaterial_qqgdd")
+shaded = true
+texture_filter = 0
+texture = ExtResource("11_gcext")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="StreetLamp"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.243376, 0.00607032)
+light_color = Color(1, 1, 0.682353, 1)
+light_energy = 0.4
+light_indirect_energy = 0.0
+light_size = 1.75
+shadow_enabled = true
+omni_range = 4.21
+omni_attenuation = 0.5
+script = ExtResource("12_c1rnb")
+
+[node name="StreetLamp2" type="Sprite3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.495, 2.6, 1.826)
+shaded = true
+texture_filter = 0
+texture = ExtResource("11_gcext")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="StreetLamp2"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.243376, 0.00857109)
+light_color = Color(1, 1, 0.682353, 1)
+light_energy = 0.4
+light_size = 1.75
+shadow_enabled = true
+omni_range = 4.21
+omni_attenuation = 0.5
+script = ExtResource("12_c1rnb")
